@@ -1,14 +1,25 @@
 import { useEffect, useState } from "react";
-import { accessToken } from "./spotify";
-import logo from "./logo.svg";
+import { accessToken, logout, getCurrentUserProfile } from "./spotify";
 import "./App.css";
 
 function App() {
   const [token, setToken] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     setToken(accessToken);
+    fetchProfileData();
   }, []);
+
+  const fetchProfileData = async () => {
+    try {
+      const { data } = await getCurrentUserProfile();
+      setProfile(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -17,7 +28,16 @@ function App() {
             Login in Spotify
           </a>
         ) : (
-          <h1>Logged In!</h1>
+          <div>
+            <h1>Logged In!</h1>
+            <button onClick={logout}>Logout</button>
+            {profile && (
+              <>
+                <h3>{profile.display_name}</h3>
+                <h3>{profile.email}</h3>
+              </>
+            )}
+          </div>
         )}
       </header>
     </div>
