@@ -1,6 +1,20 @@
 import { useEffect, useState } from "react";
 import { accessToken, logout, getCurrentUserProfile } from "./spotify";
-import "./App.css";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import styled from "styled-components/macro";
+import { GlobalStyle } from "./style";
+import { Login } from "./pages";
+
+console.log(GlobalStyle);
+
+const StyledLoginBtn = styled.a`
+  background-color: palegreen;
+  color: white;
+  padding: 10px 20px;
+  margin: 20px auto;
+  border-radius: 30px;
+  display: inline-block;
+`;
 
 function App() {
   const [token, setToken] = useState(null);
@@ -21,26 +35,16 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {!token ? (
-          <a className="App-link" href="http://localhost:8883/login">
-            Login in Spotify
-          </a>
-        ) : (
-          <div>
-            <h1>Logged In!</h1>
-            <button onClick={logout}>Logout</button>
-            {profile && (
-              <>
-                <h3>{profile.display_name}</h3>
-                <h3>{profile.email}</h3>
-              </>
-            )}
-          </div>
-        )}
-      </header>
-    </div>
+    <BrowserRouter>
+      {!token && <Login />}
+      <Routes>
+        <Route path="/" element={<h1>Hello</h1>} />
+        <Route path="/top-artists" />
+        <Route path="/top-tracks" />
+        <Route path="/playlists" />
+        <Route path="/playlists/:id" />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
