@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { accessToken, logout, getCurrentUserProfile } from "./spotify";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { accessToken } from "./spotify";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login, Profile } from "./pages";
 
 function App() {
